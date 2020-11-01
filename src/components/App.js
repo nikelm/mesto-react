@@ -1,17 +1,135 @@
+import React from 'react';
 import Header from './Header';
 import Main from './Main';
+import PopupWithForm from './PopupWithForm';
+import Card from './Card';
+import ImagePopup from './ImagePopup';
 import Footer from './Footer';
 
 function App() {
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closeAllPopups();
+    }
+  });
+
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+
+  const [selectedCard, setSelectedCard] = React.useState({});
+  const [place, setPlace] =  React.useState(false);
+
+  function handleCardClick() {
+   setPlace(true);
+   setSelectedCard(() => {
+    
+   });
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
+
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setSelectedCard({});
+    setPlace(false);
+  }
+
   return (
 
    <>
+
       <Header />
-      <Main />
+      <Main
+        onEditProfile={handleEditProfileClick}
+        onEditAvatar={handleEditAvatarClick}
+        onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick} >
+
+      </Main>
+
+      <ImagePopup
+        card={selectedCard ? '' : ''}
+        onClose={closeAllPopups}
+        isOpen={place ? 'popup_opened' : ''}
+
+      />
+
+      <PopupWithForm
+        isOpen={isEditProfilePopupOpen ? 'popup_opened' : ''}
+        onClose={closeAllPopups}
+        name="user"
+        title="Редактировать профиль"
+        textButton="Сохранить">
+
+          <input id="name-input" type="text" className="popup__input popup__input_type_name" name="fullname" placeholder="Имя" required minLength="2" maxLength="40" />
+
+          <span id="name-input-error" className="popup__error"></span>
+          <label></label>
+
+          <input id="job-input" type="text" className="popup__input popup__input_type_description" name="job" placeholder="О себе" required minLength="2" maxLength="200" />
+
+          <span id="job-input-error" className="popup__error"></span>
+
+      </PopupWithForm>
+
+      <PopupWithForm
+        isOpen={isAddPlacePopupOpen ? 'popup_opened' : ''}
+        onClose={closeAllPopups}
+        name="new"
+        title="Новое место"
+        textButton="Сохранить">
+
+          <input id="place-input" type="text" className="popup__input popup__input-new_type_name" name="name" placeholder="Название" required minLength="1" maxLength="30" />
+
+          <span id="place-input-error" className="popup__error"></span>
+          <label></label>
+
+          <input id="url-input" type="url" className="popup__input popup__input-new_type_link" name="link" placeholder="Ссылка на картинку" required />
+
+          <span id="url-input-error" className="popup__error"></span>
+
+      </PopupWithForm>
+
+      <PopupWithForm
+        isOpen={isEditAvatarPopupOpen ? 'popup_opened' : ''}
+        onClose={closeAllPopups}
+        name="avatar"
+        title="Обновить аватар"
+        textButton="Сохранить">
+
+          <input id="url-input" type="url" className="popup__input popup__input-avatar_type_link" name="avatar" placeholder="Ссылка на картинку" required />
+
+          <span id="url-input-error" className="popup__error"></span>
+
+      </PopupWithForm>
+
+      <PopupWithForm
+        name="delete_place"
+        title="Вы уверены?"
+        textButton="Да">
+
+      </PopupWithForm>
+
+
+
       <Footer />
 
       <template className="template">
-        
+
         <div className="card">
 
           <button type="button" className="card__button">
@@ -56,59 +174,7 @@ function App() {
         </div>
       </template>
 
-      <section className="popup popup_user">
-        <form className="popup__form popup__form_user" name="userprofile" noValidate>
-          <button className="popup__close popup__close_user" type="button"></button>
-          <fieldset className="popup__profile">
-            <label className="popup__label">Редактировать профиль</label>
-            <input id="name-input" type="text" className="popup__input popup__input_type_name" name="fullname" placeholder="Имя" required minLength="2" maxLength="40" />
-            <span id="name-input-error" className="popup__error"></span>
-            <label></label>
-            <input id="job-input" type="text" className="popup__input popup__input_type_description" name="job" placeholder="О себе" required minLength="2" maxLength="200" />
-            <span id="job-input-error" className="popup__error"></span>
-          </fieldset>
-          <button className="popup__button popup__button_user" type="submit">Сохранить</button>
-        </form>
-      </section>
-
-      <section className="popup popup_avatar">
-        <form className="popup__form popup__form_avatar" noValidate>
-          <button className="popup__close popup__close_avatar" type="button"></button>
-          <fieldset className="popup__profile popup__profile_avatar">
-            <label className="popup__label popup__label_avatar">Обновить аватар</label>
-            <input id="url-input" type="url" className="popup__input popup__input-avatar_type_link" name="avatar" placeholder="Ссылка на картинку" required />
-            <span id="url-input-error" className="popup__error"></span>
-          </fieldset>
-          <button className="popup__button popup__button-save-avatar" type="submit">Сохранить</button>
-        </form>
-      </section>
-
-      <section className="popup popup_new">
-        <form className="popup__form popup__form_new" name="newplace" noValidate>
-          <button className="popup__close popup__close_new" type="button"></button>
-          <fieldset className="popup__profile popup__profile_new">
-            <label className="popup__label popup__label_new">Новое место</label>
-            <input id="place-input" type="text" className="popup__input popup__input-new_type_name" name="name" placeholder="Название" required minLength="1" maxLength="30" />
-            <span id="place-input-error" className="popup__error"></span>
-            <label></label>
-            <input id="url-input" type="url" className="popup__input popup__input-new_type_link" name="link" placeholder="Ссылка на картинку" required />
-            <span id="url-input-error" className="popup__error"></span>
-          </fieldset>
-          <button className="popup__button popup__button-save" type="submit" disabled>Сохранить</button>
-        </form>
-      </section>
-
-      <section className="popup popup_delete_place">
-        <form className="popup__form popup__form_delete_place" name="deletePlace">
-          <button className="popup__close popup__close_delete_place" type="button"></button>
-          <fieldset className="popup__profile popup__profile_delete">
-            <label className="popup__label popup__label_delete_place">Вы уверены?</label>
-          </fieldset>
-          <button className="popup__button popup__button_delete_place" type="submit">Да</button>
-        </form>
-      </section>
-
-   </>   
+   </>
   );
 }
 

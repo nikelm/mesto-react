@@ -1,39 +1,75 @@
-function Main() {
+import React from 'react';
+import apiCards from '../utils/Api';
+import Card from './Card';
+import ImagePopup from './ImagePopup';
+
+function Main(props) {
+
+  const [userName, setUserName] = React.useState([]);
+  const [userDescription, setUserDescription ] = React.useState([]);
+  const [userAvatar, setUserAvatar] = React.useState([]);
+
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    apiCards.getUserData().then((data) => {
+
+      setUserAvatar(data.avatar);
+      setUserDescription(data.about);
+      setUserName(data.name)
+    })
+  }, [userAvatar, userName, userDescription])
+
+  React.useEffect(() => {
+    apiCards.getInitialCards().then((data) => {
+
+      setCards(data.map((item =>({
+        id: item._id,
+        name: item.name,
+        link: item.link,
+        onCardClick: props.onCardClick,
+        })))
+      )
+    })
+  }, [])
+
+
   return (
+  <>
 
     <main className="main">
 
         <section className="profile">
 
-          <button className="avatar-button" type="button">
-            <img className="avatar" src="" alt="Ж.И. Кусто" />
+          <button onClick={props.onEditAvatar} className="avatar-button" type="button">
+            <img className="avatar" src={userAvatar} alt="Ж.И. Кусто" />
           </button>
 
           <div className="profile__info">
             <div className="profile__user">
-              <h1 className="profile__title">Жак-Ив Кусто</h1>
-              <button className="profile__link" type="button"></button>
+              <h1 className="profile__title">{userName}</h1>
+              <button onClick={props.onEditProfile} className="profile__link" type="button"></button>
             </div>
-          <p className="profile__paragraph">Исследователь океана</p>
+          <p className="profile__paragraph">{userDescription}</p>
           </div>
 
-          <button className="profile__add" type="button"></button>
+          <button onClick={props.onAddPlace} className="profile__add" type="button"></button>
 
         </section>
 
-        <section className="popup-place">
+        <section className="elements">
+          {
+            cards.map(({id, ...props}) =>
+              <Card key={id} {...props} />
+            )
+          }
 
-          <div className="popup-place__container">
-            <button className="popup__close popup-place__close" type="button"></button>
-            <img src="#" alt="Изображение места" className="popup-place__image" />
-            <p className="popup-place__title"></p>
-          </div>
 
         </section>
 
-        <section className="elements"></section>
+    </main>
 
-      </main>
+  </>
   )
 }
 
