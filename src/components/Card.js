@@ -1,14 +1,17 @@
 import React from 'react';
 
+
 function Card(props) {
 
   function handleClick() {
-    //console.log(props.link)
     props.onCardClick(props.link);
-
   }
 
+
+
   return (
+    <>
+
     <div className="card">
       <button onClick={handleClick} type="button" className="card__button">
         <img className="card__image" alt="Изображение места" src={props.link} />
@@ -28,6 +31,8 @@ function Card(props) {
             </div>
         </div>
     </div>
+
+  </>
   )
 }
 

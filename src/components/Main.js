@@ -1,7 +1,7 @@
 import React from 'react';
 import apiCards from '../utils/Api';
 import Card from './Card';
-import ImagePopup from './ImagePopup';
+
 
 function Main(props) {
 
@@ -35,7 +35,7 @@ function Main(props) {
 
 
   return (
-  <>
+
 
     <main className="main">
 
@@ -64,12 +64,11 @@ function Main(props) {
             )
           }
 
-
         </section>
 
     </main>
 
-  </>
+
   )
 }
 
