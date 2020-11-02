@@ -18,18 +18,12 @@ function Main(props) {
       setUserDescription(data.about);
       setUserName(data.name)
     })
-  }, [userAvatar, userName, userDescription])
+  }, [])
 
   React.useEffect(() => {
     apiCards.getInitialCards().then((data) => {
 
-      setCards(data.map((item =>({
-        id: item._id,
-        name: item.name,
-        link: item.link,
-        onCardClick: props.onCardClick,
-        })))
-      )
+      setCards(data);
     })
   }, [])
 
@@ -59,8 +53,8 @@ function Main(props) {
 
         <section className="elements">
           {
-            cards.map(({id, ...props}) =>
-              <Card key={id} {...props} />
+            cards.map((item) =>
+              <Card key={item._id} onCardClick={props.onCardClick} card={item} />
             )
           }
 
