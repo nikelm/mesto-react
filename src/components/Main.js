@@ -17,6 +17,8 @@ function Main(props) {
       setUserAvatar(data.avatar);
       setUserDescription(data.about);
       setUserName(data.name)
+    }).catch((err) => {
+      console.log(err);
     })
   }, [])
 
@@ -24,6 +26,8 @@ function Main(props) {
     apiCards.getInitialCards().then((data) => {
 
       setCards(data);
+    }).catch((err) => {
+      console.log(err);
     })
   }, [])
 

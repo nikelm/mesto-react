@@ -20,11 +20,6 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [place, setPlace] =  React.useState(false);
 
-  /*В брифе, и на скриншоте фотографии в брифе, ничего не сказано про название фото, поэтому ранее
-  делал без него. Вообще очень странное ощущение от React'a:
-  ловишь себя на мысли, что пользуешься читами какими-то...
-  Cпасибо за ревью, такой подробно-конкретный feedback не часто приходит */
-
   function handleCardClick(data) {
     setPlace(true);
     setSelectedCard({
