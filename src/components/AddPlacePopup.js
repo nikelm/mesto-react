@@ -14,6 +14,11 @@ function AddPlacePopup(props) {
     setPlaceLink(cards.link);
   }, [cards]);
 
+  React.useEffect(() => {
+    setNamePlace('');
+    setPlaceLink('');
+  }, [props.isOpen]);
+
   function handleNamePlaceChange(evt) {
     setNamePlace(evt.target.value);
   }
@@ -42,12 +47,12 @@ function AddPlacePopup(props) {
       title="Новое место"
       textButton="Сохранить">
 
-      <input onChange={handleNamePlaceChange} id="place-input" type="text" className="popup__input popup__input-new_type_name" name="name" placeholder="Название" required minLength="1" maxLength="30" />
+      <input value={namePlace || ''} onChange={handleNamePlaceChange} id="place-input" type="text" className="popup__input popup__input-new_type_name" name="name" placeholder="Название" required minLength="1" maxLength="30" />
 
       <span id="place-input-error" className="popup__error"></span>
       <label></label>
 
-      <input onChange={handlePlaceLinkChange} id="url-input" type="url" className="popup__input popup__input-new_type_link" name="link" placeholder="Ссылка на картинку" required />
+      <input value={placeLink || ''} onChange={handlePlaceLinkChange} id="url-input" type="url" className="popup__input popup__input-new_type_link" name="link" placeholder="Ссылка на картинку" required />
 
       <span id="url-input-error" className="popup__error"></span>
 

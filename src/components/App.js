@@ -11,13 +11,20 @@ import apiCards from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import CardsContext from '../contexts/CardsContext';
 
-
 function App() {
 
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closeAllPopups();
+  React.useEffect(() => {
+    function handleEsc(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
+      }
     }
+
+    document.addEventListener('keydown', handleEsc);
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
   });
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -28,6 +35,25 @@ function App() {
   const [place, setPlace] =  React.useState(false);
 
   const [cards, setCards] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState([]);
+
+  Promise.all([
+    apiCards.getUserInfo(),
+    apiCards.getInitialCards()
+  ]).then((values)=>{
+    const [userData, initialCards] = values;
+  }).catch((err) => {
+    console.log(err);
+  })
+
+  React.useEffect(() => {
+    apiCards.getUserInfo().then((data) => {
+      setCurrentUser(data);
+
+    }).catch((err) => {
+      console.log(err);
+    })
+  }, [])
 
   React.useEffect(() => {
     apiCards.getInitialCards().then((data) => {
@@ -37,6 +63,7 @@ function App() {
       console.log(err);
     })
   }, [])
+
 
   function handleCardLike(card) {
 
@@ -64,18 +91,6 @@ function App() {
       console.log(err);
     });
   }
-
-  const [currentUser, setCurrentUser] = React.useState([]);
-
-  React.useEffect(() => {
-    apiCards.getUserInfo().then((data) => {
-      setCurrentUser(data);
-
-    }).catch((err) => {
-      console.log(err);
-    })
-  }, [])
-
 
   function handleCardClick(data) {
     setPlace(true);
@@ -108,7 +123,6 @@ function App() {
 
   function handleUpdateUser(currentUser) {
     apiCards.saveUserInfo(currentUser).then((data) => {
-
       setCurrentUser(data);
       closeAllPopups();
     }).catch((err) => {
@@ -131,7 +145,6 @@ function App() {
     .then((newCard) => {
       setCards([newCard, ...cards])
       closeAllPopups();
-      document.querySelector('.popup__form_new').reset();
     }).catch((err) => {
       console.log(err);
       })

@@ -1,27 +1,13 @@
 import React from 'react';
+import CardsContext from '../contexts/CardsContext';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
-import CardsContext from '../contexts/CardsContext';
+
 
 function Main(props) {
 
   const currentUser = React.useContext(CurrentUserContext);
   const cards = React.useContext(CardsContext);
-
-
-  function ButtonClass(item) {
-    const isOwn = item.owner._id === currentUser._id;
-
-    return (`${isOwn ? 'card__delete-icon' : 'card__delete-icon_hidden'}`);
-  }
-
-
-  function isLikedClass(item) {
-    const isLiked = item.likes.some(i => i._id === currentUser._id);
-
-    return (`${isLiked ? 'card__like_active' : 'card__like'}`);
-  }
-
 
   return (
 
@@ -52,14 +38,11 @@ function Main(props) {
               <Card key={item._id}
                 onCardClick={props.onCardClick}
                 card={item}
-                cardDeleteButtonClassName={ButtonClass(item)}
-                cardLikeButtonClassName={isLikedClass(item)}
                 onCardLike={props.onCardLike}
                 onCardDelete={props.onCardDelete}
               />
             )
           }
-
         </section>
 
     </main>
