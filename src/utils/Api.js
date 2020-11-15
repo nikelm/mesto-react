@@ -30,7 +30,7 @@ class Api {
 
   }
 
-  getUserData() {
+  getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: this._headers
@@ -72,7 +72,7 @@ class Api {
     })
 
   }
-
+/*
   addLikeCard(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'PUT',
@@ -86,7 +86,7 @@ class Api {
       return Promise.reject(new Error(`Ошибка: ${res.status}`));
     })
   }
-
+*/
   saveUserInfo(userData) {
 
     return fetch(`${this._url}/users/me`, {
@@ -119,10 +119,24 @@ class Api {
     })
   }
 
-
+/*
   deleteLikeCard(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'DELETE',
+      headers: this._headers
+    })
+    .then((res) => {
+      if (res.ok) {
+
+        return res.json();
+      }
+      return Promise.reject(new Error(`Ошибка: ${res.status}`));
+    })
+  }
+*/
+  changeLikeCardStatus(id, like) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
+      method: like ? 'PUT' : 'DELETE',
       headers: this._headers
     })
     .then((res) => {

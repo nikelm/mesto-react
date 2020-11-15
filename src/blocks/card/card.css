@@ -2,6 +2,7 @@
 @import url(./__image/card__image.css);
 @import url(./__delete/card__delete.css);
 @import url(./__delete-icon/card__delete-icon.css);
+@import url(./__delete-icon/_hidden/card__delete-icon_hidden.css);
 @import url(./__item-button/card__item-button.css);
 @import url(./__item-rectangle/card__item-rectangle.css);
 @import url(./__item-subtitle/card__item-subtitle.css);
