@@ -24,3 +24,5 @@
 
 См. https://nikelm.github.io/mesto-react
 
+** Запуск приложения **
+В окружении Node.js выполнить: npm run start
